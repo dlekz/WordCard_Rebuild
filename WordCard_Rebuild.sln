@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2037
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordCard_Rebuild", "WordCard_Rebuild\WordCard_Rebuild.csproj", "{CD45EFE4-C791-4FE6-B105-32B59B76A995}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "logic", "logic\logic.csproj", "{B70D4F51-E4CF-4830-83C8-0B3DC9BC81FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tests", "tests\tests.csproj", "{332C945A-FF5A-4FCB-B234-43C16A5575E5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CD45EFE4-C791-4FE6-B105-32B59B76A995}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD45EFE4-C791-4FE6-B105-32B59B76A995}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD45EFE4-C791-4FE6-B105-32B59B76A995}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD45EFE4-C791-4FE6-B105-32B59B76A995}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B70D4F51-E4CF-4830-83C8-0B3DC9BC81FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B70D4F51-E4CF-4830-83C8-0B3DC9BC81FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B70D4F51-E4CF-4830-83C8-0B3DC9BC81FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B70D4F51-E4CF-4830-83C8-0B3DC9BC81FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{332C945A-FF5A-4FCB-B234-43C16A5575E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{332C945A-FF5A-4FCB-B234-43C16A5575E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{332C945A-FF5A-4FCB-B234-43C16A5575E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{332C945A-FF5A-4FCB-B234-43C16A5575E5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6B71D9A2-8492-49E2-BCE7-C1BD68F02CAD}
+	EndGlobalSection
+EndGlobal
