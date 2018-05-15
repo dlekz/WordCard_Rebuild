@@ -11,8 +11,8 @@ namespace tests {
         private Dictionary<string,string> sqlQuery {set;get;}
 
         public SqlQuery_Tests(){
-            sqlConnect = "Database=worddb;Data Source=localhost;"+
-                           "User Id=lekz;PassWord=30d04d93v;";
+            sqlConnect = "Database=worddb;server=localhost;port=3306;"+
+                           "User=lekz;Password=30d04d93v;";
             sqlQuery = new Dictionary<string,string>();
                 sqlQuery.Add("Word","SELECT * FROM word;");
                 sqlQuery.Add("Img","SELECT * FROM img;");
@@ -22,9 +22,9 @@ namespace tests {
         public void SelectData() {
             SqlQuery sql = new SqlQuery(sqlConnect,sqlQuery);
             
-
+            List<WordTable> tableList = sql.GetWordCard();
             if(1==1){
-                throw new Exception(sql.word[0].ransName);
+                throw new Exception((sql.GetWordCard())[0].Word);
             }
         }
     }

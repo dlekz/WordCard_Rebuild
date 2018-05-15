@@ -3,53 +3,46 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Collections.Generic;
+using MySql.Data;
+using MySql.Data.MySqlClient;
 
 namespace logic {
     public class SqlQuery {
-//        private string _sqlConnect {set;get;}
-//        private string _sqlSelect {set; get;}
-//        private SqlDataAdapter _dataAdapter {set; get;}
-//        public DataRelation _dataRelation {set;get;}
-//        public DataTable word {set;get;}
-//        public DataTable img {set;get;}
         private DataSet _dataSet {set; get;}
 
         public SqlQuery() { DefDataSet(); }
         public SqlQuery(string sqlConnect, 
                         IDictionary<string,string> sqlQuery) {
-            string _sqlConnect = sqlConnect;
-            string _sqlSelect = sqlQuery.Select(n => n.Value).ToString();
-            var _dataAdapter = new SqlDataAdapter(_sqlSelect, _sqlConnect);
+            try {
+                string _sqlConnect = sqlConnect;
+                string _sqlSelect = sqlQuery.Select(n => n.Value).ToString();
+                var _dataAdapter = new MySqlDataAdapter(_sqlSelect, _sqlConnect);
 
-            int i = 0;
-            foreach (var query in sqlQuery) {
-                _dataAdapter.TableMappings.Add($"Table{i}",query.Key);
-                i++;
-            }
-            _dataSet = new DataSet();
-            _dataAdapter.Fill(_dataSet);            
+                int i = 0;
+                foreach (var query in sqlQuery) {
+                    _dataAdapter.TableMappings.Add($"Table{i}",query.Key);
+                    i++;
+                }
+                _dataSet = new DataSet();
+                _dataAdapter.Fill(_dataSet); 
+            } catch(Exception ex) { Console.WriteLine(ex); }          
         }
 
         public List<WordTable> GetWordCard(){
+                DataTable words = _dataSet.Tables["Word"];
+                DataTable imgs = _dataSet.Tables["Img"];
             return (
-                from word in _dataSet.Tables["Word"]
-                from img in _dataSet.Tables["Img"]
-                where word.Columns["WordId"] == img.Columns["ImgId"]
-                select new {
-                    Id = word.Columns["WordId"],
-                    Word = word.Columns["WordName"],
-                    Translate = word.Columns["TransName"],
-                    ImgPath = img.Columns["imgPath"],
-                    Status = word.Columns["Status"],
-                }
-                // select new WordTable (
-                //     word.Columns["WordId"],
-                //     word.Columns["WordName"],
-                //     word.Columns["TransName"],
-                //     img.Columns["imgPath"],
-                //     word.Columns["Status"]
-                // )
-            );
+                from word in words.AsEnumerable()
+                join img in imgs.AsEnumerable()
+                on word.Field<int>("WordId") equals img.Field<int>("ImgId")
+                select new WordTable (
+                    word.Field<int>("WordId"),
+                    word.Field<string>("WordName"),
+                    word.Field<string>("TransName"),
+                    img.Field<string>("imgPath"),
+                    word.Field<int>("Status")
+                )
+            ).ToList();
         }
 
         public string SetSelect(string[] tableList) {
