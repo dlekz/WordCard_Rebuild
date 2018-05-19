@@ -14,17 +14,23 @@ namespace logic {
         public SqlQuery(string sqlConnect, 
                         IDictionary<string,string> sqlQuery) {
             try {
-                string _sqlConnect = sqlConnect;
-                string _sqlSelect = sqlQuery.Select(n => n.Value).ToString();
-                var _dataAdapter = new MySqlDataAdapter(_sqlSelect, _sqlConnect);
-
+                MySqlConnection _sqlConnect = new MySqlConnection(sqlConnect);
+                _dataSet = new DataSet();
                 int i = 0;
                 foreach (var query in sqlQuery) {
-                    _dataAdapter.TableMappings.Add($"Table{i}",query.Key);
+                    new MySqlDataAdapter(query.Value,_sqlConnect)
+                        .Fill(_dataSet, query.Key);
                     i++;
                 }
-                _dataSet = new DataSet();
-                _dataAdapter.Fill(_dataSet); 
+                //  var _dataAdapter = new MySqlDataAdapter(_sqlSelect, _sqlConnect);
+
+                // int i = 0;
+                // foreach (var query in sqlQuery) {
+                //     _dataAdapter.TableMappings.Add($"Table{i}",query.Key);
+                //     i++;
+                // }
+                // _dataSet = new DataSet();
+                // _dataAdapter.Fill(_dataSet, "Word"); 
             } catch(Exception ex) { Console.WriteLine(ex); }          
         }
 
@@ -35,11 +41,12 @@ namespace logic {
                 from word in words.AsEnumerable()
                 join img in imgs.AsEnumerable()
                 on word.Field<int>("WordId") equals img.Field<int>("ImgId")
+                orderby word.Field<string>("WordName"), word.Field<string>("TransName")
                 select new WordTable (
                     word.Field<int>("WordId"),
                     word.Field<string>("WordName"),
                     word.Field<string>("TransName"),
-                    img.Field<string>("imgPath"),
+                    img.Field<string>("ImgPath"),
                     word.Field<int>("Status")
                 )
             ).ToList();

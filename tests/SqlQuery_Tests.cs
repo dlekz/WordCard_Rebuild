@@ -11,7 +11,7 @@ namespace tests {
         private Dictionary<string,string> sqlQuery {set;get;}
 
         public SqlQuery_Tests(){
-            sqlConnect = "Database=worddb;server=localhost;port=3306;"+
+            sqlConnect = "Database=worddb_test;server=localhost;port=3306;"+
                            "User=lekz;Password=30d04d93v;";
             sqlQuery = new Dictionary<string,string>();
                 sqlQuery.Add("Word","SELECT * FROM word;");
@@ -23,9 +23,11 @@ namespace tests {
             SqlQuery sql = new SqlQuery(sqlConnect,sqlQuery);
             
             List<WordTable> tableList = sql.GetWordCard();
-            if(1==1){
-                throw new Exception((sql.GetWordCard())[0].Word);
+
+            if (tableList[0].Word != "a_test") {
+                throw new Exception("first word must be a_test");
             }
+
         }
     }
 }

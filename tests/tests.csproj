@@ -46,7 +46,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="Sysem.Data" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="SqlQuery_Tests.cs" />
