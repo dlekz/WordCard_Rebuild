@@ -19,15 +19,16 @@ namespace tests {
         }
 
         [TestMethod]
-        public void SelectData() {
-            SqlQuery sql = new SqlQuery(sqlConnect,sqlQuery);
+        public void GetWord_Test() {
+            SqlQuery sql = new SqlQuery(sqlConnect, sqlQuery);
+            int id = 1;
+            string actualWordName = "a_test";
             
-            List<WordTable> tableList = sql.GetWordCard();
+            WordTable word = sql.GetWord(id);
 
-            if (tableList[0].Word != "a_test") {
-                throw new Exception("first word must be a_test");
+            if (word.Word != actualWordName) {
+                throw new Exception($"{word.Word} != {actualWordName}");
             }
-
         }
     }
 }
