@@ -6,28 +6,42 @@ using System.Collections.Generic;
 namespace tests {
     [TestClass]
     public class SqlQuery_Tests {
-        
-        private string sqlConnect {set;get;}
-        private Dictionary<string,string> sqlQuery {set;get;}
+        private SqlQuery sql {set; get;}
 
         public SqlQuery_Tests(){
-            sqlConnect = "Database=worddb_test;server=localhost;port=3306;"+
-                           "User=lekz;Password=30d04d93v;";
-            sqlQuery = new Dictionary<string,string>();
-                sqlQuery.Add("Word","SELECT * FROM word;");
-                sqlQuery.Add("Img","SELECT * FROM img;");
+            sql = SqlQuery.Create();
         }
-
+        [TestMethod]
+        public void GetWords_Test() {
+            string actualFirstWord = "a_test";
+            WordTable word = sql.words[0];
+            if (word.Word != actualFirstWord) {
+                throw new Exception($"{word.Word} != {actualFirstWord}");
+            }
+        }
         [TestMethod]
         public void GetWord_Test() {
-            SqlQuery sql = new SqlQuery(sqlConnect, sqlQuery);
             int id = 1;
             string actualWordName = "a_test";
             
-            WordTable word = sql.GetWord(id);
+            WordTable word = sql.GetWordById(id);
 
             if (word.Word != actualWordName) {
                 throw new Exception($"{word.Word} != {actualWordName}");
+            }
+        }
+        [TestMethod]
+        public void Update_Test_Translate() {
+            int id = 1;
+            string translate = "test_5";
+            
+            sql.Update(id,translate);
+
+            var newSql = SqlQuery.Create();
+            WordTable word = newSql.GetWordById(id);            
+
+            if (word.Translate != translate) {
+                throw new Exception($"{word.Translate} != {translate}");
             }
         }
     }

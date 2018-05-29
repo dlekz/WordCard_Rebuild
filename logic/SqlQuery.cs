@@ -1,50 +1,67 @@
 ﻿using System;
 using System.Data;
-using System.Data.SqlClient;
+using System.Data.Common;
+using System.Data.Linq;
 using System.Linq;
 using System.Collections.Generic;
-using MySql.Data;
 using MySql.Data.MySqlClient;
 
 namespace logic {
     public class SqlQuery {
-        private DataSet _dataSet {set; get;}
-        public List<WordTable> words {set;get;} 
 
-        public SqlQuery(string sqlConnect, 
-                        IDictionary<string,string> sqlQuery) {
+        private MySqlConnection _sqlConnect { set; get; }
+        private DataSet _dataSet {set; get;}
+        public List<WordTable> words {private set;get;} 
+        private DataContext _dataContext { set; get; }
+        private MySqlDataAdapter _dataAdapter { set; get; }
+        
+        public SqlQuery() {}
+        public static SqlQuery Create() {
+            string connect = "Database=worddb_test;server=localhost;port=3306;User=lekz;Password=30d04d93v;";
+            string select = "SELECT WORD_ID, WORD_NAME, WORD_TRANSLATE FROM WORDS;";
+            SqlQuery sqlQuery = new SqlQuery();
             try {
-                MySqlConnection _sqlConnect = new MySqlConnection(sqlConnect);
-                _dataSet = new DataSet();
-                int i = 0;
-                foreach (var query in sqlQuery) {
-                    new MySqlDataAdapter(query.Value,_sqlConnect)
-                        .Fill(_dataSet, query.Key);
-                    i++;
-                }
-                words = GetDataSet();
-            } catch(Exception ex) { Console.WriteLine(ex); }          
+                sqlQuery._sqlConnect = new MySqlConnection(connect);
+                sqlQuery._dataAdapter = new MySqlDataAdapter(select,connect);
+                sqlQuery._dataAdapter.TableMappings.Add("Table","Words");
+                sqlQuery._dataSet = new DataSet();
+                sqlQuery._dataAdapter.Fill(sqlQuery._dataSet);
+                sqlQuery.words = sqlQuery.GetWords();
+            } catch (Exception ex) {Console.WriteLine(ex);}
+            return sqlQuery;            
         }
-    
-// return all words
-        private List<WordTable> GetDataSet(){
+        private List<WordTable> GetWords(){
             return (
-                from word in _dataSet.Tables["Word"].AsEnumerable()
-                join img in _dataSet.Tables["Img"].AsEnumerable()
-                on word.Field<int>("WordId") equals img.Field<int>("ImgId")
-                orderby word.Field<string>("WordName"), word.Field<string>("TransName")
-                select new WordTable (
-                    word.Field<int>("WordId"),
-                    word.Field<string>("WordName"),
-                    word.Field<string>("TransName"),
-                    img.Field<string>("ImgPath"),
-                    word.Field<int>("Status")
+                from word in _dataSet.Tables["Words"].AsEnumerable()
+                orderby word.Field<string>("WORD_NAME")
+                select new WordTable(
+                    word.Field<int>("WORD_ID"),
+                    word.Field<string>("WORD_NAME"),
+                    word.Field<string>("WORD_TRANSLATE"),
+                    "", 0
                 )
             ).ToList();
         }
-// return word for id
-        public WordTable GetWord(int id) {
+        public WordTable GetWordById(int id) {
             return words.Where(el => el.Id == id).First();
+        }
+// It's work, but why?
+        public void Update(int wordId, string translate) {
+            _dataAdapter.Fill(_dataSet);
+            var command = new MySqlCommand();
+            command.CommandText = "UPDATE `WORDS` " +
+                $"SET `WORD_TRANSLATE` = '{translate}'" + 
+                $"WHERE `WORD_ID` = '{wordId}'";
+            command.Connection = _sqlConnect;
+            _dataAdapter.UpdateCommand = command;
+
+            foreach(var el in _dataSet.Tables["Words"].AsEnumerable()){}
+
+            var query = (from word in _dataSet.Tables["Words"].AsEnumerable()
+                        where word.Field<int>("WORD_ID") == 2
+                        select word).FirstOrDefault();
+            query["WORD_TRANSLATE"]="";
+            _dataAdapter.Update(_dataSet);
         }
     }
 }
