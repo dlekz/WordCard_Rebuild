@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using logic;
 using System.Collections.Generic;
@@ -14,9 +15,9 @@ namespace tests {
         [TestMethod]
         public void GetWords_Test() {
             string actualFirstWord = "a_test";
-            WordTable word = sql.words[0];
-            if (word.Word != actualFirstWord) {
-                throw new Exception($"{word.Word} != {actualFirstWord}");
+            DataRow word = sql.words[0];
+            if ((string)word["WORD_NAME"] != actualFirstWord) {
+                throw new Exception($"{word["WORD_NAME"]} != {actualFirstWord}");
             }
         }
         [TestMethod]
@@ -24,25 +25,33 @@ namespace tests {
             int id = 1;
             string actualWordName = "a_test";
             
-            WordTable word = sql.GetWordById(id);
+            DataRow word = sql.GetWordById(id);
 
-            if (word.Word != actualWordName) {
-                throw new Exception($"{word.Word} != {actualWordName}");
+            if ((string)word["WORD_NAME"] != actualWordName) {
+                throw new Exception($"{(string)word["WORD_NAME"]} != {actualWordName}");
             }
         }
         [TestMethod]
         public void Update_Test_Translate() {
             int id = 1;
-            string translate = "test_5";
+            string translate = "test_1";
+            string status = "2";
             
-            sql.Update(id,translate);
+           sql.Update(id, new Dictionary<SqlQuery.ActualRows,string>{
+               {SqlQuery.ActualRows.WORD_TRANSLATE,translate},
+               {SqlQuery.ActualRows.STATUS,status}
+            });
 
             var newSql = SqlQuery.Create();
-            WordTable word = newSql.GetWordById(id);            
+            DataRow word = newSql.GetWordById(id);            
 
-            if (word.Translate != translate) {
-                throw new Exception($"{word.Translate} != {translate}");
+            if ((string)word["WORD_TRANSLATE"] != translate) {
+                throw new Exception($"{word["WORD_TRANSLATE"]} != {translate}");
             }
+            if ((int)word["STATUS"] != Int32.Parse(status)) {
+                throw new Exception($"{word["STATUS"]} != {status}");
+            }
+
         }
     }
 }
