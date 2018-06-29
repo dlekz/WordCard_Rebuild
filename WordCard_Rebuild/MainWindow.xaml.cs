@@ -23,6 +23,8 @@ namespace WordCard {
         private List<Word> words {set;get;}
 
         private CommandBinding LoadWords { set; get; }
+        private CommandBinding ReloadWords { set; get; }
+        private CommandBinding PrintWords { set; get; }
         private CommandBinding AddWord { set; get; }
         private CommandBinding UpdateWord { set; get; }
         private CommandBinding DeleteWord { set; get; }
@@ -32,19 +34,24 @@ namespace WordCard {
             this.Background = SystemColors.ControlBrush;
 
             _sql = SqlQuery.Create();
-//            words = GetWords(_sql.Words);
 
             LoadWords = new CommandBinding(Commands.LoadWords);
+            ReloadWords = new CommandBinding(Commands.ReloadWords);
+            PrintWords = new CommandBinding(Commands.PrintWords);
             AddWord = new CommandBinding(Commands.AddWord);
             UpdateWord = new CommandBinding(Commands.UpdateWord);
             DeleteWord = new CommandBinding(Commands.DeleteWord);
 
             this.CommandBindings.Add(LoadWords);
+            this.CommandBindings.Add(ReloadWords);
+            this.CommandBindings.Add(PrintWords);
             this.CommandBindings.Add(AddWord);
             this.CommandBindings.Add(UpdateWord);
             this.CommandBindings.Add(DeleteWord);
 
             LoadWords.CanExecute += LoadWords_CanExecute;
+            ReloadWords.CanExecute += ReloadWords_CanExecute;
+            PrintWords.CanExecute += PrintWords_CanExecute;
             AddWord.CanExecute += AddWord_CanExecute;
             UpdateWord.CanExecute += UpdateWord_CanExecute;
             DeleteWord.CanExecute += DeleteWord_CanExecute;
@@ -63,6 +70,8 @@ namespace WordCard {
             MainGrid.Columns[++i] = new DataGridCol("Статус", new Binding("Status"));
             MainGrid.Columns[++i] = new DataGridCol("Контекст", new Binding("Context"), Visibility.Hidden);
         }
+        private void ReloadWords_CanExecute(object sender, CanExecuteRoutedEventArgs e) { }
+        private void PrintWords_CanExecute(object sender, CanExecuteRoutedEventArgs e) { }
         private void AddWord_CanExecute(object sender, CanExecuteRoutedEventArgs e) { }
         private void UpdateWord_CanExecute(object sender, CanExecuteRoutedEventArgs e) { }
         private void DeleteWord_CanExecute(object sender, CanExecuteRoutedEventArgs e) { }

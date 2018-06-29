@@ -1,8 +1,7 @@
 ﻿using System.Windows.Input;
-using System;
 
 namespace WordCard {
-    [Obsolete]public class Commander {
+    [System.Obsolete]public class Commander {
         private static RoutedUICommand _addWordFromGui { set; get; }
         private static RoutedUICommand _addWordToDb { set; get; }
         private static RoutedUICommand _outputToWordApp { set; get; }
