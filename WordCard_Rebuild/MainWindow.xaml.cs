@@ -70,11 +70,21 @@ namespace WordCard {
             MainGrid.Columns[++i] = new DataGridCol("Статус", new Binding("Status"));
             MainGrid.Columns[++i] = new DataGridCol("Контекст", new Binding("Context"), Visibility.Hidden);
         }
-        private void ReloadWords_CanExecute(object sender, CanExecuteRoutedEventArgs e) { }
-        private void PrintWords_CanExecute(object sender, CanExecuteRoutedEventArgs e) { }
-        private void AddWord_CanExecute(object sender, CanExecuteRoutedEventArgs e) { }
-        private void UpdateWord_CanExecute(object sender, CanExecuteRoutedEventArgs e) { }
-        private void DeleteWord_CanExecute(object sender, CanExecuteRoutedEventArgs e) { }
+        private void ReloadWords_CanExecute(object sender, CanExecuteRoutedEventArgs e) {
+            MessageBox.Show("This is reload data");
+        }
+        private void PrintWords_CanExecute(object sender, CanExecuteRoutedEventArgs e) {
+            MessageBox.Show("This is output to print");
+        }
+        private void AddWord_CanExecute(object sender, CanExecuteRoutedEventArgs e) {
+            MessageBox.Show("This is new word");
+        }
+        private void UpdateWord_CanExecute(object sender, CanExecuteRoutedEventArgs e) {
+            MessageBox.Show("This is update this word");
+        }
+        private void DeleteWord_CanExecute(object sender, CanExecuteRoutedEventArgs e) {
+            MessageBox.Show("This is delete this word");
+        }
 
         private List<Word> GetWords(List<DataRow> rows){
             List<Word> words = new List<Word>();

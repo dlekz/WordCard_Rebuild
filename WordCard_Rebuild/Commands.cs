@@ -22,7 +22,9 @@ namespace WordCard {
             set {
                 string text = "Перезагрузка двнных в GUI";
                 string name = "Перезагрузка слов";
-                _reloadWords = new RoutedUICommand(text, name, typeof(Commands));
+                InputGestureCollection inputGestures = new InputGestureCollection();
+                inputGestures.Add(new KeyGesture(Key.F5,ModifierKeys.None,"F5"));
+                _reloadWords = new RoutedUICommand(text, name, typeof(Commands),inputGestures);
             } get {
                 return _reloadWords;
             }
@@ -31,7 +33,9 @@ namespace WordCard {
             set {
                 string text = "Отправка выбранных данных на печать";
                 string name = "Печать слов";
-                _printWords = new RoutedUICommand(text, name, typeof(Commands));
+                InputGestureCollection inputGestures = new InputGestureCollection();
+                inputGestures.Add(new KeyGesture(Key.P,ModifierKeys.Control,"Ctrl + P"));
+                _printWords = new RoutedUICommand(text, name, typeof(Commands), inputGestures);
             } get {
                 return _printWords;
             }
@@ -40,7 +44,9 @@ namespace WordCard {
             set {
                 string text = "Добвление нового слова в БД. Синхронизация данных в БД и GUI";
                 string name = "Добавление слова";
-                _addWord = new RoutedUICommand(text,name,typeof(Commands));
+                InputGestureCollection inputGentures = new InputGestureCollection();
+                inputGentures.Add(new KeyGesture(Key.N, ModifierKeys.Control, "Ctrl + N"));
+                _addWord = new RoutedUICommand(text, name, typeof(Commands), inputGentures);
             } get {
                 return _addWord;
             }
