@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace WordCard_Rebuild {
+namespace WordCard {
     class Commands {
         private static RoutedUICommand _loadWords = new RoutedUICommand();
         private static RoutedUICommand _addWord = new RoutedUICommand();

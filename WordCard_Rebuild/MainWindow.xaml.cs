@@ -16,19 +16,16 @@ using System.Windows.Shapes;
 using logic;
 
 namespace WordCard {
-    public struct Word {
-        public int WordId { get; set; }
-        public int ImgId { get; set; }
-        public string WordName { get; set; }
-        public string WordTranslate { get; set; }
-        public int Status { get; set; }
-        public string Context { get; set; }
-    }
 
     public partial class MainWindow : Window {
         private SqlQuery _sql {set;get;}
         private List<DataRow> _words {set;get;}
         private List<Word> words {set;get;}
+
+        private CommandBinding LoadWords { set; get; }
+        private CommandBinding AddWord { set; get; }
+        private CommandBinding UpdateWord { set; get; }
+        private CommandBinding DeleteWord { set; get; }
 
         public MainWindow() {
             InitializeComponent();
@@ -36,7 +33,27 @@ namespace WordCard {
 
             _sql = SqlQuery.Create();
             words = GetWords(_sql.Words);
+
+            LoadWords = new CommandBinding(Commands.LoadWords);
+            AddWord = new CommandBinding(Commands.AddWord);
+            UpdateWord = new CommandBinding(Commands.UpdateWord);
+            DeleteWord = new CommandBinding(Commands.DeleteWord);
+
+            this.CommandBindings.Add(LoadWords);
+            this.CommandBindings.Add(AddWord);
+            this.CommandBindings.Add(UpdateWord);
+            this.CommandBindings.Add(DeleteWord);
+
+            LoadWords.CanExecute += LoadWords_CanExecute;
+            AddWord.CanExecute += AddWord_CanExecute;
+            UpdateWord.CanExecute += UpdateWord_CanExecute;
+            DeleteWord.CanExecute += DeleteWord_CanExecute;
         }
+
+        private void LoadWords_CanExecute(object sender, CanExecuteRoutedEventArgs e) { }
+        private void AddWord_CanExecute(object sender, CanExecuteRoutedEventArgs e) { }
+        private void UpdateWord_CanExecute(object sender, CanExecuteRoutedEventArgs e) { }
+        private void DeleteWord_CanExecute(object sender, CanExecuteRoutedEventArgs e) { }
 
         private List<Word> GetWords(List<DataRow> rows){
             List<Word> words = new List<Word>();
