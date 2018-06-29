@@ -15,7 +15,7 @@ namespace tests {
         [TestMethod]
         public void GetWords_Test() {
             string actualFirstWord = "a_test";
-            DataRow word = sql.words[0];
+            DataRow word = sql.Words[0];
             if ((string)word["WORD_NAME"] != actualFirstWord) {
                 throw new Exception($"{word["WORD_NAME"]} != {actualFirstWord}");
             }

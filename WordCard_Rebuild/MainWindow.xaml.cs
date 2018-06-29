@@ -35,8 +35,8 @@ namespace WordCard {
             this.Background = SystemColors.ControlBrush;
 
             _sql = SqlQuery.Create();
-            _words = _sql.GetWords();
-            words = GetWords(_sql.GetWords());
+//            _words = _sql.GetWords();
+            words = GetWords(_sql.Words);
         }
 
         private List<Word> GetWords(List<DataRow> rows){

@@ -10,8 +10,8 @@ namespace logic {
     public class SqlQuery {
 
         private MySqlConnection _sqlConnect { set; get; }
-        private DataSet _dataSet {set; get;}
-        public List<DataRow> words {private set;get;}
+        private DataSet _dataSet { set; get; }
+        public List<DataRow> Words {private set;get; }
         private DataContext _dataContext { set; get; }
         private MySqlDataAdapter _dataAdapter { set; get; }
         
@@ -26,18 +26,18 @@ namespace logic {
                 sqlQuery._dataAdapter.TableMappings.Add("Table","words");
                 sqlQuery._dataSet = new DataSet();
                 sqlQuery._dataAdapter.Fill(sqlQuery._dataSet);
-                sqlQuery.words = sqlQuery.GetWords();
+                sqlQuery.Words = sqlQuery.GetWords();
             } catch (Exception ex) {Console.WriteLine(ex);}
             return sqlQuery;            
         }
-        private List<DataRow> GetWords(){
+        private List<DataRow> GetWords() {
             return _dataSet.Tables["Words"]
                     .AsEnumerable()
                     .OrderBy(word => word.Field<string>("WORD_NAME"))
                     .ToList();
         }
         public DataRow GetWordById(int id) {
-            return words.Where(word => word.Field<int>("WORD_ID") == id).First();
+            return Words.Where(word => word.Field<int>("WORD_ID") == id).First();
         }
         public enum  ActualRows {IMG_ID,WORD_NAME,WORD_TRANSLATE,STATUS,CONTEXT};
 // It's work, but why?
