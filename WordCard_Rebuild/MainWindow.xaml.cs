@@ -35,7 +35,6 @@ namespace WordCard {
             this.Background = SystemColors.ControlBrush;
 
             _sql = SqlQuery.Create();
-//            _words = _sql.GetWords();
             words = GetWords(_sql.Words);
         }
 
@@ -45,11 +44,8 @@ namespace WordCard {
                 DataRow row = rows[i];
                 Word word = new Word() {
                     WordId = (int)row["WORD_ID"],
-//                    ImgId = (int?) row["IMG_ID"] ?? 0,
                     WordName = (string)row["WORD_NAME"],
                     WordTranslate = (string)row["WORD_TRANSLATE"],
-                    //Status = (int?) row["STATUS"] ?? 0,
-                    //Context = (string) row["CONTEXT"]
                 };
                 words.Add(word);
             }
