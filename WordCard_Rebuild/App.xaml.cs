@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace WordCard_Rebuild
+namespace WordCard
 {
     /// <summary>
     /// Interaction logic for App.xaml

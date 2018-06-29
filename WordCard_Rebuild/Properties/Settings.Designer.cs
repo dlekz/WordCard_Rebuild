@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WordCard_Rebuild.Properties
+namespace WordCard.Properties
 {
 
 
