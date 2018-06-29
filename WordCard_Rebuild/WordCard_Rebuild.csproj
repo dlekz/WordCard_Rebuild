@@ -67,7 +67,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Commander.cs" />
     <Compile Include="Commands.cs" />
     <Compile Include="DataGridCol.cs" />
     <Compile Include="MainWindow.xaml.cs">

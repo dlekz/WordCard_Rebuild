@@ -49,17 +49,21 @@ namespace WordCard {
             this.CommandBindings.Add(UpdateWord);
             this.CommandBindings.Add(DeleteWord);
 
-            LoadWords.CanExecute += LoadWords_CanExecute;
-            ReloadWords.CanExecute += ReloadWords_CanExecute;
-            PrintWords.CanExecute += PrintWords_CanExecute;
-            AddWord.CanExecute += AddWord_CanExecute;
-            UpdateWord.CanExecute += UpdateWord_CanExecute;
-            DeleteWord.CanExecute += DeleteWord_CanExecute;
+            LoadWords.Executed += LoadWords_Executed;
+            ReloadWords.Executed += ReloadWords_Executed;
+            PrintWords.Executed += PrintWords_Executed;
+            AddWord.Executed += AddWord_Executed;
+            UpdateWord.Executed += UpdateWord_Executed;
+            DeleteWord.Executed += DeleteWord_Executed;
 
-            this.MainGrid.Loaded += LoadWords_CanExecute;
+            this.MainGrid.Loaded += LoadWords_Executed;
+            bAddWord.Command = AddWord.Command;
+            bUpdateWord.Command = UpdateWord.Command;
+            bDeleteWord.Command = DeleteWord.Command;
+            bPrintWords.Command = PrintWords.Command;
         }
 
-        private void LoadWords_CanExecute(object sender, RoutedEventArgs e) {
+        private void LoadWords_Executed(object sender, RoutedEventArgs e) {
             words = GetWords(_sql.Words);
             MainGrid.ItemsSource = words;
             int i = -1;
@@ -70,19 +74,19 @@ namespace WordCard {
             MainGrid.Columns[++i] = new DataGridCol("Статус", new Binding("Status"));
             MainGrid.Columns[++i] = new DataGridCol("Контекст", new Binding("Context"), Visibility.Hidden);
         }
-        private void ReloadWords_CanExecute(object sender, CanExecuteRoutedEventArgs e) {
+        private void ReloadWords_Executed(object sender, ExecutedRoutedEventArgs e) {
             MessageBox.Show("This is reload data");
         }
-        private void PrintWords_CanExecute(object sender, CanExecuteRoutedEventArgs e) {
+        private void PrintWords_Executed(object sender, ExecutedRoutedEventArgs e) {
             MessageBox.Show("This is output to print");
         }
-        private void AddWord_CanExecute(object sender, CanExecuteRoutedEventArgs e) {
+        private void AddWord_Executed(object sender, ExecutedRoutedEventArgs e) {
             MessageBox.Show("This is new word");
         }
-        private void UpdateWord_CanExecute(object sender, CanExecuteRoutedEventArgs e) {
+        private void UpdateWord_Executed(object sender, ExecutedRoutedEventArgs e) {
             MessageBox.Show("This is update this word");
         }
-        private void DeleteWord_CanExecute(object sender, CanExecuteRoutedEventArgs e) {
+        private void DeleteWord_Executed(object sender, ExecutedRoutedEventArgs e) {
             MessageBox.Show("This is delete this word");
         }
 
