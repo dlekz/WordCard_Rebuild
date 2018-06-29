@@ -32,7 +32,7 @@ namespace WordCard {
             this.Background = SystemColors.ControlBrush;
 
             _sql = SqlQuery.Create();
-            words = GetWords(_sql.Words);
+//            words = GetWords(_sql.Words);
 
             LoadWords = new CommandBinding(Commands.LoadWords);
             AddWord = new CommandBinding(Commands.AddWord);
@@ -48,9 +48,21 @@ namespace WordCard {
             AddWord.CanExecute += AddWord_CanExecute;
             UpdateWord.CanExecute += UpdateWord_CanExecute;
             DeleteWord.CanExecute += DeleteWord_CanExecute;
+
+            this.MainGrid.Loaded += LoadWords_CanExecute;
         }
 
-        private void LoadWords_CanExecute(object sender, CanExecuteRoutedEventArgs e) { }
+        private void LoadWords_CanExecute(object sender, RoutedEventArgs e) {
+            words = GetWords(_sql.Words);
+            MainGrid.ItemsSource = words;
+            int i = -1;
+            MainGrid.Columns[++i] = new DataGridCol("WORD_ID", new Binding("WordId"), Visibility.Hidden);
+            MainGrid.Columns[++i] = new DataGridCol("Изображение", new Binding("ImgId"), Visibility.Hidden);
+            MainGrid.Columns[++i] = new DataGridCol("Слово", new Binding("WordName"));
+            MainGrid.Columns[++i] = new DataGridCol("Перевод", new Binding("WordTranslate"));
+            MainGrid.Columns[++i] = new DataGridCol("Статус", new Binding("Status"));
+            MainGrid.Columns[++i] = new DataGridCol("Контекст", new Binding("Context"), Visibility.Hidden);
+        }
         private void AddWord_CanExecute(object sender, CanExecuteRoutedEventArgs e) { }
         private void UpdateWord_CanExecute(object sender, CanExecuteRoutedEventArgs e) { }
         private void DeleteWord_CanExecute(object sender, CanExecuteRoutedEventArgs e) { }
@@ -67,19 +79,6 @@ namespace WordCard {
                 words.Add(word);
             }
             return words;
-        }
-        private void LoadContent(object sender, RoutedEventArgs e) {
-            LoadContentToMainGrid();
-        }
-        public void LoadContentToMainGrid() {
-            MainGrid.ItemsSource = words;
-            int i = -1;
-            MainGrid.Columns[++i] = new DataGridCol("WORD_ID", new Binding("WordId"),Visibility.Hidden);
-            MainGrid.Columns[++i] = new DataGridCol("Изображение", new Binding("ImgId"),Visibility.Hidden);
-            MainGrid.Columns[++i] = new DataGridCol("Слово", new Binding("WordName"));
-            MainGrid.Columns[++i] = new DataGridCol("Перевод", new Binding("WordTranslate"));
-            MainGrid.Columns[++i] = new DataGridCol("Статус", new Binding("Status"));
-            MainGrid.Columns[++i] = new DataGridCol("Контекст", new Binding("Context"),Visibility.Hidden);
         }
 
         private void MainGrid_LoadingRow(object sender, DataGridRowEventArgs e){}

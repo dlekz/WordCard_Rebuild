@@ -33,7 +33,7 @@
         <DataGrid 
             CellEditEnding="MainGrid_CellEditEnding"
             RowEditEnding="MainGrid_RowEditEnding"
-            x:Name="MainGrid"  Style="{StaticResource DataGridStyle}" LoadingRow="MainGrid_LoadingRow" FrozenColumnCount="2" Grid.Row="1" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Loaded="LoadContent" >
+            x:Name="MainGrid"  Style="{StaticResource DataGridStyle}" LoadingRow="MainGrid_LoadingRow" FrozenColumnCount="2" Grid.Row="1" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         </DataGrid>
     </Grid>
 </Window>
